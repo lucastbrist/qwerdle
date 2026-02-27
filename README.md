@@ -1,0 +1,1 @@
+![A screenshot of the play page](images/play_screenshot.png)

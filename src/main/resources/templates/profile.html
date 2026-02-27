@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}" />
+    <meta charset="UTF-8">
+    <title>Profile - Qwerdle</title>
+</head>
+<body>
+<div class="dashboard">
+    <div class="dashboard-title">QWERDLE</div>
+    <div class="dashboard-buttons">
+        <a href="/play" class="btn btn-secondary">🎮 Play</a>
+        <form th:action="@{/logout}" method="post" style="display: inline;">
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+            <button type="submit" class="btn btn-secondary">🚪 Logout</button>
+        </form>
+    </div>
+</div>
+
+<div class="content">
+    <div class="profile-container">
+        <h1>Player Profile</h1>
+
+        <div class="profile-info">
+            <h2 th:text="${user.username}">Username</h2>
+            <p th:text="${user.email}">email@example.com</p>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-value" th:text="${user.totalGames}">0</div>
+                <div class="stat-label">Games Played</div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-value" th:text="${user.gamesWon}">0</div>
+                <div class="stat-label">Games Won</div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-value" th:text="${user.gamesLost}">0</div>
+                <div class="stat-label">Games Lost</div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-value" th:text="${#numbers.formatDecimal(user.winRate, 1, 1)} + '%'">0%</div>
+                <div class="stat-label">Win Rate</div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-value" th:text="${user.currentStreak}">0</div>
+                <div class="stat-label">Current Streak</div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-value" th:text="${user.maxStreak}">0</div>
+                <div class="stat-label">Best Streak</div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

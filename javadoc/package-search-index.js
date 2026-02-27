@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"com.ltb.woordle"},{"l":"com.ltb.woordle.config"},{"l":"com.ltb.woordle.controllers"},{"l":"com.ltb.woordle.exceptions"},{"l":"com.ltb.woordle.models"},{"l":"com.ltb.woordle.repositories"},{"l":"com.ltb.woordle.services"},{"l":"com.ltb.woordle.utils"}];updateSearchResults();

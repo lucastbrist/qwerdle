@@ -1,0 +1,8 @@
+com.ltb.woordle
+com.ltb.woordle.config
+com.ltb.woordle.controllers
+com.ltb.woordle.exceptions
+com.ltb.woordle.models
+com.ltb.woordle.repositories
+com.ltb.woordle.services
+com.ltb.woordle.utils

@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link rel="stylesheet" type="text/css" media="all" th:href="@{/css/style.css}" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Play Qwerdle</title>
+</head>
+<body>
+<!-- Dashboard -->
+<div class="dashboard">
+    <div class="dashboard-title">QWERDLE</div>
+    <div class="dashboard-buttons">
+        <a href="/" class="btn btn-secondary">🏠 Home</a>
+        <a href="/profile" class="btn btn-secondary">👤 Profile</a>
+    </div>
+</div>
+
+<!-- Content -->
+<div class="content">
+    <div th:if="${message}" class="message message-success" th:text="${message}"></div>
+    <div th:if="${error}" class="message message-error" th:text="${error}"></div>
+
+    <div class="game-container">
+        <!-- Game Info -->
+        <div class="game-info">
+            <div class="game-info-item">
+                <div class="game-info-label">Session ID</div>
+                <div class="game-info-value" th:text="${sessionId} ?: 'N/A'">abc-123</div>
+            </div>
+            <div class="game-info-item">
+                <div class="game-info-label">Attempts</div>
+                <div class="game-info-value">
+                    <span id="current-attempt">0</span> / <span th:text="${maxAttempts} ?: 6">6</span>
+                </div>
+            </div>
+            <div class="game-info-item">
+                <div class="game-info-label">Word Length</div>
+                <div class="game-info-value" th:text="${wordLength} ?: 5">5</div>
+            </div>
+        </div>
+
+        <!-- Game Board -->
+        <div class="game-board" id="game-board">
+            <div class="board-row" th:each="i : ${#numbers.sequence(0, 5)}">
+                <div class="tile" th:each="j : ${#numbers.sequence(0, 4)}"></div>
+            </div>
+        </div>
+
+        <!-- Keyboard -->
+        <div class="keyboard">
+            <div class="keyboard-row">
+                <button class="key" th:each="letter : ${'Q,W,E,R,T,Y,U,I,O,P'.split(',')}"
+                        th:text="${letter}"
+                        th:data-key="${letter}">Q</button>
+            </div>
+            <div class="keyboard-row">
+                <button class="key" th:each="letter : ${'A,S,D,F,G,H,J,K,L'.split(',')}"
+                        th:text="${letter}"
+                        th:data-key="${letter}">A</button>
+            </div>
+            <div class="keyboard-row">
+                <button class="key wide" data-key="ENTER">ENTER</button>
+                <button class="key" th:each="letter : ${'Z,X,C,V,B,N,M'.split(',')}"
+                        th:text="${letter}"
+                        th:data-key="${letter}">Z</button>
+                <button class="key wide" data-key="BACKSPACE">⌫</button>
+            </div>
+        </div>
+
+        <!-- Hidden Form -->
+        <form id="guess-form" th:action="@{/guess}" method="post">
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+            <input type="hidden" name="sessionId" th:value="${sessionId}">
+            <input type="hidden" name="guess" id="guess-input">
+        </form>
+    </div>
+
+    <!-- Game Over Modal -->
+    <div class="modal" id="game-over-modal">
+        <div class="modal-content">
+            <h2 class="modal-title" id="modal-title">Congratulations!</h2>
+            <p id="modal-message">You guessed the word!</p>
+            <div style="margin-top: 1.5rem;">
+                <a href="/play" class="btn btn-primary">Play Again</a>
+                <a href="/" class="btn btn-secondary">Home</a>
+            </div>
+        </div>
+    </div>
+</div>
+<script th:inline="javascript">
+    // Pass server-side data to JavaScript
+    window.gameData = {
+        maxAttempts: /*[[${maxAttempts}]]*/ 6,
+        wordLength: /*[[${wordLength}]]*/ 5,
+        sessionId: /*[[${sessionId}]]*/ '',
+        gameCompleted: /*[[${completed}]]*/ false,
+        gameWon: /*[[${won}]]*/ false,
+        previousGuesses: /*[[${guesses}]]*/ []
+    };
+</script>
+<script type="text/javascript" th:src="@{/js/main.js}"></script>
+<script type="text/javascript" th:src="@{/js/main.js}"></script>
+</body>
+</html>
