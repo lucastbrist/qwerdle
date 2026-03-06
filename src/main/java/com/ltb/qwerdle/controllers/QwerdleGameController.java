@@ -42,7 +42,11 @@ public class QwerdleGameController {
             game.reset();
             game.answer = wordListService.getRandomWord();
             game.sessionId = UUID.randomUUID().toString();
-            // log.info("New game started for {}: {}", userDetails.getUsername(), game.answer.toUpperCase());
+            if (userDetails != null) {
+                log.info("New game started for {}: {}", userDetails.getUsername(), game.answer.toUpperCase());
+            } else {
+                log.info(game.answer.toUpperCase());
+            }
         }
 
         model.addAttribute("currentRow", game.guesses.size());
@@ -52,7 +56,9 @@ public class QwerdleGameController {
         model.addAttribute("guesses", game.guesses);
         model.addAttribute("completed", game.isComplete);
         model.addAttribute("won", game.isWon);
-        // model.addAttribute("username", userDetails.getUsername());
+        if (userDetails != null) {
+            model.addAttribute("username", userDetails.getUsername());
+        }
 
         return "play";
     }
@@ -89,7 +95,9 @@ public class QwerdleGameController {
             if (feedback.stream().allMatch(c -> c == 'C')) {
                 game.isWon = true;
                 game.isComplete = true;
-                userService.recordWin(userDetails.getUsername());
+                if (userDetails != null) {
+                    userService.recordWin(userDetails.getUsername());
+                }
                 redirect.addFlashAttribute("message", "You won! The word was: " + game.answer.toUpperCase());
             }
             // Check if lost

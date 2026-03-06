@@ -27,7 +27,7 @@ public class UserService {
     }
 
     @Transactional
-    public User registerUser(String username, String email, String password) {
+    public void registerUser(String username, String email, String password) {
         if (userRepository.existsByUsername(username)) {
             throw new IllegalArgumentException("A user with that username already exists. " +
                     "Please enter a new username.");
@@ -48,7 +48,7 @@ public class UserService {
         user.setRole("ROLE_USER");
 
         log.info("Registering new user: {}", username);
-        return userRepository.save(user);
+        userRepository.save(user);
     }
 
     @Transactional

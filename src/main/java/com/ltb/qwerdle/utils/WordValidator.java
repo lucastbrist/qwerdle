@@ -22,9 +22,6 @@ public final class WordValidator {
      * @throws IllegalArgumentException if word is null or empty
      */
     public static boolean isValidAlphabeticWord(String word) {
-
-        System.out.println("Beginning isValidAlphabeticWord()...");
-
         if (word == null || word.isEmpty()) {
             throw new IllegalArgumentException("Word passed to alphabetic validation cannot be null or empty.");
         }
@@ -39,9 +36,6 @@ public final class WordValidator {
      * @throws IllegalArgumentException if word is null, empty, or only whitespace
      */
     public static String normalizeWord(String word) {
-
-        System.out.println("Beginning normalizeWord()...");
-
         if (word == null) {
             throw new IllegalArgumentException("Word cannot be null.");
         }
