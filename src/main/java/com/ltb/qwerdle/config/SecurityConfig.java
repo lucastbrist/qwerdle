@@ -26,10 +26,10 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/", "/register", "/login").permitAll()
+                        .requestMatchers("/register", "/login").permitAll()
                         .requestMatchers("/css/**", "/js/**", "/img/**", "/webjars/**").permitAll()
                         .requestMatchers("/", "/home", "/play", "/play/**", "/guess").permitAll()
-                        .requestMatchers("/qwerdle/profile", "/profile").authenticated()
+                        .requestMatchers("/profile").authenticated()
                 )
                 .formLogin(form -> form
                         .loginPage("/login")

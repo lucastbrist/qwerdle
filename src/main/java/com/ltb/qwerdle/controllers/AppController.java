@@ -17,10 +17,14 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @Slf4j
 @Controller
 @RequiredArgsConstructor
-public class ProfileController {
+public class AppController {
 
     private final UserService userService;
-    private final CustomUserDetailsService userDetailsService;
+
+    @GetMapping({"/", "/home"})
+    public String home() {
+        return "home";
+    }
 
     @GetMapping("/profile")
     public String profile(@AuthenticationPrincipal CustomUserDetails userDetails, Model model) {
