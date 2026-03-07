@@ -170,18 +170,6 @@
                 <div class="stat-label">Win Rate</div>
             </div>
         </div>
-
-        <!-- Win Rate Bar -->
-        <div class="win-bar-container">
-            <div class="win-bar-label">
-                <span>Win Rate</span>
-                <span th:text="${#numbers.formatDecimal(user.winRate, 1, 0)} + '%'">0%</span>
-            </div>
-            <div class="win-bar-track">
-                <div class="win-bar-fill" th:style="'width: ' + ${user.winRate} + '%'"></div>
-            </div>
-        </div>
-
     </div>
 </div>
 </body>

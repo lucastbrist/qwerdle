@@ -2,10 +2,7 @@ package com.ltb.qwerdle.controllers;
 
 import com.ltb.qwerdle.exceptions.DictionaryServiceException;
 import com.ltb.qwerdle.models.CustomUserDetails;
-import com.ltb.qwerdle.services.DictionaryService;
-import com.ltb.qwerdle.services.UserService;
-import com.ltb.qwerdle.services.WordListService;
-import com.ltb.qwerdle.services.WordService;
+import com.ltb.qwerdle.services.*;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -15,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -23,30 +21,34 @@ import java.util.stream.Collectors;
 @Slf4j
 @Controller
 @RequiredArgsConstructor
-@SessionAttributes("game")
+@SessionAttributes({"randomGame", "dailyGame"})
 public class QwerdleGameController {
 
     private final WordService wordService;
     private final WordListService wordListService;
     private final UserService userService;
-
-    @GetMapping
-    public String home() {
-        return "redirect:/play";
-    }
+    private final DailyWordService dailyWordService;
 
     @GetMapping("/play")
-    public String play(@ModelAttribute("game") GameState game, Model model,
-                       @AuthenticationPrincipal CustomUserDetails userDetails) {
-        if (game.answer == null || game.isComplete) {
+    public String play(
+                        @RequestParam(defaultValue = "false") boolean daily,
+                        @RequestParam(defaultValue = "false") boolean newGame,
+                        @ModelAttribute("randomGame") GameState randomGame,
+                        @ModelAttribute("dailyGame") GameState dailyGame,
+                        Model model,
+                        @AuthenticationPrincipal CustomUserDetails userDetails) {
+
+        GameState game = daily ? dailyGame : randomGame;
+
+        boolean shouldReset = (game.answer == null) || (game.isComplete && newGame);
+        boolean dailyAlreadyStarted = (daily && LocalDate.now().equals(game.dailyLastPlayed));
+
+        if (!dailyAlreadyStarted && shouldReset) {
             game.reset();
-            game.answer = wordListService.getRandomWord();
+            game.answer = daily ? dailyWordService.getDailyWord() : wordListService.getRandomWord();
+            if (daily) game.dailyLastPlayed = LocalDate.now();
             game.sessionId = UUID.randomUUID().toString();
-            if (userDetails != null) {
-                log.info("New game started for {}: {}", userDetails.getUsername(), game.answer.toUpperCase());
-            } else {
-                log.info(game.answer.toUpperCase());
-            }
+            logNewGame(userDetails, game.answer);
         }
 
         model.addAttribute("currentRow", game.guesses.size());
@@ -56,6 +58,10 @@ public class QwerdleGameController {
         model.addAttribute("guesses", game.guesses);
         model.addAttribute("completed", game.isComplete);
         model.addAttribute("won", game.isWon);
+        model.addAttribute("daily", daily);
+        if (game.isComplete) {
+            model.addAttribute("answer", game.answer.toUpperCase());
+        }
         if (userDetails != null) {
             model.addAttribute("username", userDetails.getUsername());
         }
@@ -65,13 +71,17 @@ public class QwerdleGameController {
 
     @PostMapping("/guess")
     public String guess(@RequestParam String guess,
-                        @ModelAttribute("game") GameState game,
+                        @RequestParam(defaultValue = "false") boolean daily,
+                        @ModelAttribute("randomGame") GameState randomGame,
+                        @ModelAttribute("dailyGame") GameState dailyGame,
                         @AuthenticationPrincipal CustomUserDetails userDetails,
                         RedirectAttributes redirect) {
 
+        GameState game = daily ? dailyGame : randomGame;
+
         if (game.isComplete) {
             redirect.addFlashAttribute("error", "Game already finished");
-            return "redirect:/play";
+            return "redirect:/play" + (daily ? "?daily=true" : "");
         }
 
         try {
@@ -98,13 +108,14 @@ public class QwerdleGameController {
                 if (userDetails != null) {
                     userService.recordWin(userDetails.getUsername());
                 }
-                redirect.addFlashAttribute("message", "You won! The word was: " + game.answer.toUpperCase());
+
             }
             // Check if lost
             else if (game.guesses.size() >= 6) {
                 game.isComplete = true;
-                userService.recordLoss(userDetails.getUsername());
-                redirect.addFlashAttribute("error", "Game over! The word was: " + game.answer.toUpperCase());
+                if (userDetails != null) {
+                    userService.recordLoss(userDetails.getUsername());
+                }
             }
 
         } catch (IllegalArgumentException e) {
@@ -114,12 +125,27 @@ public class QwerdleGameController {
             log.error("Dictionary error: {}", e.getMessage());
         }
 
-        return "redirect:/play";
+        return "redirect:/play" + (daily ? "?daily=true" : "");
     }
 
-    @ModelAttribute("game")
-    public GameState game() {
+    private void logNewGame(CustomUserDetails userDetails, String answer) {
+        if (userDetails != null) {
+            log.info("New game started for {}: {}", userDetails.getUsername(), answer.toUpperCase());
+        } else {
+            log.info(answer.toUpperCase());
+        }
+    }
+
+    @ModelAttribute("randomGame")
+    public GameState randomGame() {
         return new GameState();
+    }
+
+    @ModelAttribute("dailyGame")
+    public GameState dailyGame() {
+        GameState game = new GameState();
+        game.isDaily = true;
+        return game;
     }
 
     @Data
@@ -129,6 +155,8 @@ public class QwerdleGameController {
         List<GuessResult> guesses = new ArrayList<>();
         boolean isComplete = false;
         boolean isWon = false;
+        boolean isDaily;
+        LocalDate dailyLastPlayed;
 
         void reset() {
             guesses.clear();

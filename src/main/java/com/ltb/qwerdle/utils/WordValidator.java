@@ -46,6 +46,10 @@ public final class WordValidator {
             throw new IllegalArgumentException("Word cannot be empty or whitespace.");
         }
 
+        if (!isValidAlphabeticWord(trimmed)) {
+            throw new IllegalArgumentException("Word " + trimmed + " contains non-alphabetic characters.");
+        }
+
         return trimmed.toLowerCase(Locale.ROOT);
     }
 }

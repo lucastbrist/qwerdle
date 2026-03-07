@@ -1,3 +1,6 @@
+console.log('gameCompleted:', window.gameData.gameCompleted);
+console.log('gameWon:', window.gameData.gameWon);
+
 let currentTile = 0;
 let currentGuess = '';
 const maxAttempts = window.gameData.maxAttempts;
@@ -124,11 +127,29 @@ function showGameOverModal() {
     const message = document.getElementById('modal-message');
 
     if (gameWon) {
-        title.textContent = 'Congratulations! 🎉';
-        message.textContent = 'You guessed the word!';
+        title.textContent = 'You won!';
+        message.textContent = 'The word was: ' + window.gameData.answer;
+        triggerConfetti();
     } else {
-        title.textContent = 'Game Over';
-        message.textContent = 'Better luck next time!';
+        title.textContent = 'Game Over!';
+        message.textContent = 'The word was: ' + window.gameData.answer;
+        triggerShake();
     }
     modal.classList.add('show');
+}
+
+function triggerConfetti() {
+    confetti({
+        particleCount: 150,
+        spread: 70,
+        origin: { y: 0.6 }
+    });
+}
+
+function triggerShake() {
+    const board = document.getElementById('game-board');
+    board.classList.add('shake');
+    board.addEventListener('animationend', () => {
+        board.classList.remove('shake');
+    }, { once: true });
 }

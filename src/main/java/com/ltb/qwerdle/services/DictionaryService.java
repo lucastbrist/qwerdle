@@ -3,6 +3,7 @@ package com.ltb.qwerdle.services;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.ltb.qwerdle.exceptions.DictionaryServiceException;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -13,6 +14,7 @@ import org.springframework.web.client.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import static com.ltb.qwerdle.utils.WordValidator.*;
 
+@Slf4j
 @Service
 public class DictionaryService {
 
@@ -45,23 +47,7 @@ public class DictionaryService {
     }
 
     /**
-     * For MVP, fetches a random 5-letter word by wrapping a more flexible API-calling method.
-     *
-     * @deprecated Use {@link WordListService#getRandomWord()} instead.
-     * This method is no longer used in favor of a less expensive, hardcoded text file.
-     *
-     * @return a String of length 5 from the dictionary API.
-     */
-    @Deprecated
-    public String getRandomWord() {
-        return getRandomWord(5);
-    }
-
-    /**
      * Fetches a random word of the specified length from the dictionary API.
-     *
-     * @deprecated Use {@link WordListService#getRandomWord()} instead.
-     * This method is no longer used in favor of a less expensive, hardcoded text file.
      *
      * @param length length of the desired word; must be between 1 and 15.
      * @return a random word of the specified length.
@@ -69,9 +55,11 @@ public class DictionaryService {
      * @throws DictionaryServiceException     if there is an error communicating with the dictionary API.
      */
 
-    @Deprecated
     @SuppressWarnings("BusyWait")
     public String getRandomWord(int length) {
+
+        int attempts = 0;
+        int maxAttempts = 50;
 
         if (length <= 0 || length > 15) {
             throw new IllegalArgumentException("Length must be a positive integer no greater than 15.");
@@ -93,8 +81,15 @@ public class DictionaryService {
                 }
 
                 String responseBody = response.getBody();
-                word = extractWordFromJson(responseBody);
-                word = normalizeWord(word);
+
+                try {
+                    word = extractWordFromJson(responseBody);
+                    word = normalizeWord(word);
+                } catch (IllegalArgumentException e) {
+                    // Bad word (non-alphabetic, empty, null, etc.); skip and try again
+                    attempts ++;
+                    continue;
+                }
 
                 // Small delay to avoid rate limiting
                 try {
@@ -103,9 +98,17 @@ public class DictionaryService {
                     Thread.currentThread().interrupt();
                 }
 
+                attempts++;
+
                 // NOTE: isFrequentWord() can cause excessive loops and expensive API calls;
                 // this is not for a production environment
-            } while (!isValidAlphabeticWord(word) || !isFrequentWord(word));
+            } while (attempts < maxAttempts &&
+                    (!isValidAlphabeticWord(word) || !isFrequentWord(word) || word.length() != 5));
+
+            if (attempts >= maxAttempts) {
+                throw new DictionaryServiceException(
+                        "Failed to fetch a valid word after " + maxAttempts + " attempts");
+            }
 
             return word;
 
@@ -177,11 +180,6 @@ public class DictionaryService {
 
     }
 
-    /**
-     * @deprecated
-     * This method is no longer used in favor of a less expensive, hardcoded text file.
-     */
-    @Deprecated
     boolean isFrequentWord(String word) {
 
         /*
@@ -236,27 +234,23 @@ public class DictionaryService {
 
     }
 
-    /**
-     * Extracts just the "word" field from JSON response to avoid unnecessary object mapping.
-     *
-     * @deprecated
-     * This method is no longer used in favor of a less expensive, hardcoded text file.
-     */
-    @Deprecated
     private String extractWordFromJson(String jsonResponse) throws JsonProcessingException {
+
+        /*
+        Extracts just the "word" field from JSON response to avoid unnecessary object mapping.
+         */
+
         JsonNode root = objectMapper.readTree(jsonResponse);
         JsonNode wordNode = root.get("word");
         return wordNode != null ? wordNode.asText() : null;
     }
 
-    /**
-     * Extracts just the "zipf" frequency field from JSON response to avoid unnecessary object mapping.
-     *
-     * @deprecated
-     * This method is no longer used in favor of a less expensive, hardcoded text file.
-     */
-    @Deprecated
     private double extractFrequencyFromJson(String jsonResponse) throws JsonProcessingException {
+
+        /*
+         * Extracts just the "zipf" frequency field from JSON response to avoid unnecessary object mapping.
+         */
+
         JsonNode root = objectMapper.readTree(jsonResponse);
         JsonNode zipfNode = root.path("frequency").path("zipf");
 

@@ -17,6 +17,7 @@ public class WordListService {
 
     private final List<String> commonWords;
     private final Random random = new Random();
+    private static final String FALLBACK_WORD = "ADIEU";
 
     public WordListService(List<String> commonWords) {
         this.commonWords = loadWordList();
@@ -58,8 +59,13 @@ public class WordListService {
         if (commonWords.isEmpty()) {
             throw new IllegalStateException("Word list is empty");
         } else {
-            int index = random.nextInt(commonWords.size());
-            return commonWords.get(index);
+            try {
+                int index = random.nextInt(commonWords.size());
+                return commonWords.get(index);
+            } catch (Exception e) {
+                log.error("Failed to get random word from word list; using hardcoded fallback {}", e.getMessage());
+                return FALLBACK_WORD;
+            }
         }
     }
 
