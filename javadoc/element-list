@@ -1,8 +1,8 @@
-com.ltb.woordle
-com.ltb.woordle.config
-com.ltb.woordle.controllers
-com.ltb.woordle.exceptions
-com.ltb.woordle.models
-com.ltb.woordle.repositories
-com.ltb.woordle.services
-com.ltb.woordle.utils
+com.ltb.qwerdle
+com.ltb.qwerdle.config
+com.ltb.qwerdle.controllers
+com.ltb.qwerdle.exceptions
+com.ltb.qwerdle.models
+com.ltb.qwerdle.repositories
+com.ltb.qwerdle.services
+com.ltb.qwerdle.utils
