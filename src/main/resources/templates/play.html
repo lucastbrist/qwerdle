@@ -26,11 +26,6 @@
         <!-- Game Info -->
         <div th:if="${daily}" style="text-align: center; font-size: 0.85rem; font-weight: bold; letter-spacing: 0.1rem; color: #818384; margin-bottom: -1rem;">WORD OF THE DAY</div>
         <div class="game-info">
-<!--    Hidden for production      -->
-<!--            <div class="game-info-item">-->
-<!--                <div class="game-info-label">Session ID</div>-->
-<!--                <div class="game-info-value" th:text="${sessionId} ?: 'N/A'">abc-123</div>-->
-<!--            </div>-->
             <div class="game-info-item">
                 <div class="game-info-label">Attempts</div>
                 <div class="game-info-value">
@@ -71,14 +66,9 @@
             </div>
         </div>
 
-        <!-- Debug info -->
-        <p style="font-size: 0.65rem; color: #3a3a3c; text-align: center; margin-top: 2rem;"
-           th:text="'Session: ' + ${sessionId}"></p>
-
         <!-- Hidden Form -->
         <form id="guess-form" th:action="@{/guess}" method="post">
             <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
-            <input type="hidden" name="sessionId" th:value="${sessionId}">
             <input type="hidden" name="daily" th:value="${daily}">
             <input type="hidden" name="guess" id="guess-input">
         </form>
@@ -102,7 +92,6 @@
     window.gameData = {
         maxAttempts: /*[[${maxAttempts}]]*/ 6,
         wordLength: /*[[${wordLength}]]*/ 5,
-        sessionId: /*[[${sessionId}]]*/ '',
         gameCompleted: /*[[${completed}]]*/ false,
         gameWon: /*[[${won}]]*/ false,
         previousGuesses: /*[[${guesses}]]*/ [],

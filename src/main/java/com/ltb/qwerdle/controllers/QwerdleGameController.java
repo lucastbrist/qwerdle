@@ -47,12 +47,10 @@ public class QwerdleGameController {
             game.reset();
             game.answer = daily ? dailyWordService.getDailyWord() : wordListService.getRandomWord();
             if (daily) game.dailyLastPlayed = LocalDate.now();
-            game.sessionId = UUID.randomUUID().toString();
             logNewGame(userDetails, game.answer);
         }
 
         model.addAttribute("currentRow", game.guesses.size());
-        model.addAttribute("sessionId", game.sessionId);
         model.addAttribute("wordLength", 5);
         model.addAttribute("maxAttempts", 6);
         model.addAttribute("guesses", game.guesses);
@@ -150,7 +148,6 @@ public class QwerdleGameController {
 
     @Data
     public static class GameState {
-        String sessionId;
         String answer;
         List<GuessResult> guesses = new ArrayList<>();
         boolean isComplete = false;
