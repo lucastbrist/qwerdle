@@ -28,7 +28,7 @@ if (previousGuesses && previousGuesses.length > 0) {
             const colorClass = feedbackChar === 'C' ? 'correct' : feedbackChar === 'P' ? 'present' : 'absent';
 
             if (isLastRow) {
-                const delay = (1 - Math.pow((word.length - i) / word.length, 1.5)) * 800;
+                const delay = i * 300;
                 setTimeout(() => {
                     tile.classList.add('flip');
                     setTimeout(() => {
