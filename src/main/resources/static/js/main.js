@@ -14,26 +14,42 @@ let currentRow = previousGuesses ? previousGuesses.length : 0;
 
 if (previousGuesses && previousGuesses.length > 0) {
     previousGuesses.forEach((guessResult, rowIndex) => {
+        const isLastRow = rowIndex === previousGuesses.length - 1;
         const tiles = document.querySelectorAll(`.board-row:nth-child(${rowIndex + 1}) .tile`);
         const word = guessResult.guess || guessResult.word;
         const feedback = guessResult.feedback;
 
         for (let i = 0; i < word.length; i++) {
-            tiles[i].textContent = word[i];
-            tiles[i].classList.add('filled');
+            const tile = tiles[i];
+            tile.textContent = word[i];
+            tile.classList.add('filled');
+
             const feedbackChar = feedback[i];
-            if (feedbackChar === 'C') {
-                tiles[i].classList.add('correct');
-                letterStates[word[i]] = 'correct';
-            } else if (feedbackChar === 'P') {
-                tiles[i].classList.add('present');
-                if (letterStates[word[i]] !== 'correct') {
-                    letterStates[word[i]] = 'present';
-                }
+            const colorClass = feedbackChar === 'C' ? 'correct' : feedbackChar === 'P' ? 'present' : 'absent';
+
+            if (isLastRow) {
+                const delay = (1 - Math.pow((word.length - i) / word.length, 1.5)) * 800;
+                setTimeout(() => {
+                    tile.classList.add('flip');
+                    setTimeout(() => {
+                        tile.classList.add(colorClass);
+                        if (feedbackChar === 'C') {
+                            letterStates[word[i]] = 'correct';
+                        } else if (feedbackChar === 'P') {
+                            if (letterStates[word[i]] !== 'correct') letterStates[word[i]] = 'present';
+                        } else {
+                            if (!letterStates[word[i]]) letterStates[word[i]] = 'absent';
+                        }
+                    }, 250);
+                }, delay);
             } else {
-                tiles[i].classList.add('absent');
-                if (!letterStates[word[i]]) {
-                    letterStates[word[i]] = 'absent';
+                tile.classList.add(colorClass);
+                if (feedbackChar === 'C') {
+                    letterStates[word[i]] = 'correct';
+                } else if (feedbackChar === 'P') {
+                    if (letterStates[word[i]] !== 'correct') letterStates[word[i]] = 'present';
+                } else {
+                    if (!letterStates[word[i]]) letterStates[word[i]] = 'absent';
                 }
             }
         }
@@ -41,10 +57,13 @@ if (previousGuesses && previousGuesses.length > 0) {
     currentRow = previousGuesses.length;
     document.getElementById('current-attempt').textContent = currentRow;
     updateKeyboard();
+    if (previousGuesses.length > 0) {
+        setTimeout(() => updateKeyboard(), wordLength * 300 + 500);
+    }
 }
 
 if (gameCompleted) {
-    showGameOverModal();
+    setTimeout(() => showGameOverModal(), 1700);
 }
 
 document.querySelectorAll('.key').forEach(key => {

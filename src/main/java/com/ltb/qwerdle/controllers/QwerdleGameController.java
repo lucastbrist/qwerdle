@@ -15,7 +15,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -40,7 +39,7 @@ public class QwerdleGameController {
 
         GameState game = daily ? dailyGame : randomGame;
 
-        boolean shouldReset = (game.answer == null) || (game.isComplete && newGame);
+        boolean shouldReset = game.answer == null || newGame;
         boolean dailyAlreadyStarted = (daily && LocalDate.now().equals(game.dailyLastPlayed));
 
         if (!dailyAlreadyStarted && shouldReset) {

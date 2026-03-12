@@ -66,6 +66,29 @@ body {
     background-color: #565758;
 }
 
+.btn-reset-icon {
+    width: 32px;
+    min-width: 32px;
+    height: 32px;
+    align-self: stretch;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+    padding: 0;
+    background-color: #3a3a3c;
+    color: #818384;
+    border-radius: 4px;
+    text-decoration: none;
+    font-size: 1.2rem;
+    transition: all 0.2s;
+}
+
+.btn-reset-icon:hover {
+    background-color: #565758;
+    color: white;
+}
+
 /* Forms */
 .form-group input {
     width: 100%;
@@ -102,7 +125,6 @@ body {
 }
 
 .game-container {
-    max-width: 500px;
     margin: 0 auto;
     display: flex;
     flex-direction: column;
@@ -134,6 +156,15 @@ body {
 .game-info-value {
     font-size: 1.2rem;
     font-weight: bold;
+}
+
+.daily-label {
+    text-align: center;
+    font-size: 0.85rem;
+    font-weight: bold;
+    letter-spacing: 0.1rem;
+    color: #818384;
+    margin-bottom: -1rem;
 }
 
 /* Game Board */
@@ -291,4 +322,14 @@ body {
 
 .shake {
     animation: shake 0.5s ease-in-out;
+}
+
+@keyframes flip {
+    0%   { transform: rotateX(0); }
+    50%  { transform: rotateX(-90deg); }
+    100% { transform: rotateX(0); }
+}
+
+.tile.flip {
+    animation: flip 0.5s ease forwards;
 }

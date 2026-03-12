@@ -24,18 +24,21 @@
 
     <div class="game-container">
         <!-- Game Info -->
-        <div th:if="${daily}" style="text-align: center; font-size: 0.85rem; font-weight: bold; letter-spacing: 0.1rem; color: #818384; margin-bottom: -1rem;">WORD OF THE DAY</div>
-        <div class="game-info">
-            <div class="game-info-item">
-                <div class="game-info-label">Attempts</div>
-                <div class="game-info-value">
-                    <span id="current-attempt">0</span> / <span th:text="${maxAttempts} ?: 6">6</span>
+        <div th:if="${daily}" class="daily-label">WORD OF THE DAY</div>
+        <div style="width: 100%; position: relative; display: flex; align-items: center; justify-content: center;">
+            <div class="game-info" style="width: 500px;">
+                <div class="game-info-item">
+                    <div class="game-info-label">Attempts</div>
+                    <div class="game-info-value">
+                        <span id="current-attempt">0</span> / <span th:text="${maxAttempts} ?: 6">6</span>
+                    </div>
+                </div>
+                <div class="game-info-item">
+                    <div class="game-info-label">Word Length</div>
+                    <div class="game-info-value" style="text-align: right;" th:text="${wordLength} ?: 5">5</div>
                 </div>
             </div>
-            <div class="game-info-item">
-                <div class="game-info-label">Word Length</div>
-                <div class="game-info-value" th:text="${wordLength} ?: 5">5</div>
-            </div>
+            <a th:if="${!daily}" th:href="@{/play(newGame=true)}" class="btn-reset-icon" style="position: absolute; right: 0;">↺</a>
         </div>
 
         <!-- Game Board -->
