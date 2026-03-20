@@ -1,4 +1,6 @@
-![Qwerdle](images/qwerdle-title.svg)
+<p align="center">
+  <img src="images/qwerdle-title.svg" alt="Qwerdle" />
+</p>
 
 ![A screenshot of the play page](images/play_screenshot.png)
 
