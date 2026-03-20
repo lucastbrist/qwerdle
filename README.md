@@ -38,3 +38,24 @@ A scalable full-stack NYT Games Wordle clone built as a capstone project for the
 | Home                         | Play                            | Profile                            |
 |------------------------------|---------------------------------|------------------------------------|
 | ![Home](images/homepage.png) | ![Play](images/play-random.png) | ![Profile](images/profilepage.png) |
+
+---
+
+## Future Plans
+
+Qwerdle is custom-built to be scalable to a variety of word games built from the same base methods with minimal work mostly on the frontend; many methods and models are reusable and Qwerdle-specific controllers and services are named as such, with shared features stripped out to their own independent spaces; Dictionary API host and other application properties are easily switched out at one source with changes propagating across the app. 
+
+As this is an ever-evolving project, it could see many new features and improvements:
+
+- **Improvement:** Prevent guessing a word the user has already submitted. ***High Priority***
+- **Improvement:** Keep track of words the user has already played games for, and prevent them from being seen again until all other available words are exhausted. Similarly, prevent the Word of the Day from repeating itself, at least in a close timeframe. ***High Priority***
+- **Improvement:** Expand hardcoded word list to include more words; potentially categorize by word difficulty and implement lists of longer words for future purposes
+- **Improvement:** Separate random and daily game stat-tracking
+- **Improvement:** Deepen stat-tracking to save not just results but entire gameboards. ***Low Priority***
+- **Feature:** Hint button that pulls the answer's definition from the dictionary API and displays it to the user, perhaps at the cost of one guess
+- **Feature:** User-configurable difficulty settings, such as amount of attempts and word length; perhaps implement as discrete modes
+- **Feature:** Button for users to share their stats with other users
+- **Feature:** Ability for users to upload their own profile picture; would require external tools to verify safety of images. ***Low Priority***
+- **Feature:** Entire new word game with separate tracking such as Hangman or a dynamic crossword
+
+---
