@@ -4,7 +4,9 @@
 
 A scalable full-stack NYT Games Wordle clone built as a capstone project for the Java Enterprise career track at [CodingNomads](https://codingnomads.com/) with dictionary API integration, unlimited random games, daily words synced for all players, player profiles, and stat-tracking. 
 
-![Gameplay](images/qwerdle-demo.gif)
+<p align="center">
+  <img src="images/qwerdle-demo.gif" alt="Gameplay demo" />
+</p>
 
 ---
 
