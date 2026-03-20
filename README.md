@@ -4,6 +4,8 @@
 
 A scalable full-stack NYT Games Wordle clone built as a capstone project for the Java Enterprise career track at [CodingNomads](https://codingnomads.com/) with dictionary API integration, unlimited random games, daily words synced for all players, player profiles, and stat-tracking. 
 
+![Gameplay](images/qwerdle-demo.gif)
+
 ---
 
 ## Features
@@ -27,4 +29,15 @@ A scalable full-stack NYT Games Wordle clone built as a capstone project for the
 - **Database** — MySQL
 - **Build Tool** — Gradle
 - **External API** — [WordsAPI](https://www.wordsapi.com/) via RapidAPI
-- **Deployment** — Tomcat 10 on AWS EC2
+- **Deployment** — Tomcat 10 on AWS EC2: [play here!](https://www.qwerdle-app.com/)
+
+---
+
+<details>
+<summary>Screenshots</summary>
+
+![Home](images/homepage.png)
+![Play](images/play-random.png)
+![Profile](images/profilepage.png)
+
+</details>
