@@ -120,7 +120,9 @@
 </head>
 <body>
 <div class="dashboard">
-    <div class="dashboard-title">QWERDLE</div>
+    <div class="dashboard-title">
+        <img src="/img/qwerdle-title.svg" alt="QWERDLE" style="height: 40px;">
+    </div>
     <div class="dashboard-buttons">
         <a th:href="@{/play}" class="btn btn-secondary">🎮 Play</a>
         <form th:action="@{/logout}" method="post" style="display: inline;">

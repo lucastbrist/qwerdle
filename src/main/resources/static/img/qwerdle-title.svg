@@ -1,0 +1,41 @@
+<svg viewBox="0 0 505 100" xmlns="http://www.w3.org/2000/svg" width="505" height="100">
+  <style>
+    .tile { fill: #538d4e; rx: 4; }
+    .letter {
+      font-family: 'Helvetica Neue', Arial, sans-serif;
+      font-size: 52px;
+      font-weight: bold;
+      fill: white;
+      dominant-baseline: central;
+      text-anchor: middle;
+    }
+  </style>
+
+  <!-- Q -->
+  <rect x="5" y="5" width="62" height="62" rx="4" fill="#538d4e"/>
+  <text x="36" y="38" class="letter">Q</text>
+
+  <!-- W -->
+  <rect x="77" y="5" width="62" height="62" rx="4" fill="#538d4e"/>
+  <text x="108" y="38" class="letter">W</text>
+
+  <!-- E -->
+  <rect x="149" y="5" width="62" height="62" rx="4" fill="#538d4e"/>
+  <text x="180" y="38" class="letter">E</text>
+
+  <!-- R -->
+  <rect x="221" y="5" width="62" height="62" rx="4" fill="#538d4e"/>
+  <text x="252" y="38" class="letter">R</text>
+
+  <!-- D -->
+  <rect x="293" y="5" width="62" height="62" rx="4" fill="#538d4e"/>
+  <text x="324" y="38" class="letter">D</text>
+
+  <!-- L -->
+  <rect x="365" y="5" width="62" height="62" rx="4" fill="#538d4e"/>
+  <text x="396" y="38" class="letter">L</text>
+
+  <!-- E -->
+  <rect x="437" y="5" width="62" height="62" rx="4" fill="#538d4e"/>
+  <text x="468" y="38" class="letter">E</text>
+</svg>

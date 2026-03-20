@@ -9,7 +9,9 @@
 </head>
 <body>
 <div class="dashboard">
-    <div class="dashboard-title">QWERDLE</div>
+    <div class="dashboard-title">
+        <img src="/img/qwerdle-title.svg" alt="QWERDLE" style="height: 40px;">
+    </div>
     <div class="dashboard-buttons">
         <a th:href="@{/login}" class="btn btn-secondary" sec:authorize="isAnonymous()">🔑 Login</a>
         <a th:href="@{/register}" class="btn btn-secondary" sec:authorize="isAnonymous()">📝 Register</a>
