@@ -35,11 +35,6 @@ A scalable full-stack NYT Games Wordle clone built as a capstone project for the
 
 ---
 
-<details>
-<summary>Screenshots</summary>
-
-![Home](images/homepage.png)
-![Play](images/play-random.png)
-![Profile](images/profilepage.png)
-
-</details>
+| Home                         | Play                            | Profile                            |
+|------------------------------|---------------------------------|------------------------------------|
+| ![Home](images/homepage.png) | ![Play](images/play-random.png) | ![Profile](images/profilepage.png) |
