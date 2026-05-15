@@ -122,7 +122,13 @@ function deleteLetter() {
 
 function submitGuess() {
     if (currentGuess.length !== wordLength) {
-        alert('Not enough letters!');
+        showToast('Not enough letters!');
+        return;
+    }
+    if (previousGuesses && previousGuesses.some(g => g.guess === currentGuess)) {
+        shakeCurrentRow();
+        showToast('Already guessed!');
+        clearCurrentRow();
         return;
     }
     console.log(currentGuess);
@@ -171,4 +177,30 @@ function triggerShake() {
     board.addEventListener('animationend', () => {
         board.classList.remove('shake');
     }, { once: true });
+}
+
+function clearCurrentRow() {
+    document.querySelectorAll(`.board-row:nth-child(${currentRow + 1}) .tile`).forEach(tile => {
+        tile.textContent = '';
+        tile.classList.remove('filled');
+    });
+    currentGuess = '';
+    currentTile = 0;
+}
+
+function shakeCurrentRow() {
+    const row = document.querySelector(`.board-row:nth-child(${currentRow + 1})`);
+    row.classList.add('shake');
+    row.addEventListener('animationend', () => {
+        row.classList.remove('shake');
+    }, { once: true });
+}
+
+function showToast(message) {
+    const el = document.createElement('div');
+    el.className = 'message message-error';
+    el.textContent = message;
+    const content = document.querySelector('.content');
+    content.insertBefore(el, content.firstChild);
+    setTimeout(() => el.remove(), 2000);
 }
