@@ -53,11 +53,13 @@ As this is an ever-evolving project, it could see many new features and improvem
 - **Feature:** Button for users to share their stats with other users
 - **Feature:** Ability for users to upload their own profile picture; would require external tools to verify safety of images. ***Low Priority***
 - **Feature:** Entire new word game with separate tracking such as Hangman or a dynamic crossword
-- **Improvement:** Prevent guessing a word the user has already submitted. ***High Priority***
 - **Improvement:** Keep track of words the user has already played games for, and prevent them from being seen again until all other available words are exhausted. Similarly, prevent the Word of the Day from repeating itself, at least in a close timeframe. ***High Priority***
 - **Improvement:** Expand hardcoded word list to include more words; potentially categorize by word difficulty and implement lists of longer words for future purposes
 - **Improvement:** Separate random and daily game stat-tracking
 - **Improvement:** Mobile support
 - **Improvement:** Deepen stat-tracking to save not just results but entire gameboards. ***Low Priority***
+
+### Done
+**Improvement:** Prevent guessing a word the user has already submitted.
 
 ---
