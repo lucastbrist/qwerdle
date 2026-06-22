@@ -2,7 +2,7 @@
   <img src="images/qwerdle-title.svg" alt="Qwerdle" />
 </p>
 
-A scalable full-stack NYT Games Wordle clone built as a capstone project for the Java Enterprise career track at [CodingNomads](https://codingnomads.com/) with dictionary API integration, unlimited random games, daily words synced for all players, player profiles, and stat-tracking. [Play it here!](https://www.qwerdle-app.com/)
+A scalable full-stack NYT Games Wordle clone built as a capstone project for the Java Enterprise career track at [CodingNomads](https://codingnomads.com/) with dictionary API integration, unlimited random games, daily words synced for all players, player profiles, and stat-tracking. As of 6/22/2026, Qwerdle is no longer hosted on the web, but it remains playable for anyone who can package and run a .jar file from this repo's source.
 
 <p align="center">
   <img src="images/qwerdle-demo.gif" alt="Gameplay demo" />
